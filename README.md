@@ -1,4 +1,4 @@
-C# Coding Guidelines
+C# Coding Guidelines for VS2015
 ======================
 
 C# Coding guidelines is a Visual Studio 2015 [nuget package](https://www.nuget.org/packages/CodingGuidelines), as well an [extension](https://visualstudiogallery.msdn.microsoft.com/b0ea9f1b-9272-4564-9256-ad50bcdf493d).
