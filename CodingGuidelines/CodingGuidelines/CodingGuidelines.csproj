@@ -37,6 +37,7 @@
     <Compile Include="Maintainability\AV1520.cs" />
     <Compile Include="Maintainability\AV1525.cs" />
     <Compile Include="Maintainability\AV1532.cs" />
+    <Compile Include="Maintainability\AV1536.cs" />
     <Compile Include="Maintainability\AV1540.cs" />
     <Compile Include="Maintainability\AV1545.cs" />
     <Compile Include="Maintainability\AV1561.cs" />
