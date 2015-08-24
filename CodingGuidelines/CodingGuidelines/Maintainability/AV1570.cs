@@ -56,7 +56,7 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
                         if (!memberNode.Ancestors().
                             Where(ancestorNode => ancestorNode is IfStatementSyntax || ancestorNode is ConditionalExpressionSyntax).
                             Select(expression => expression.GetType().GetRuntimeProperty("Condition").GetValue(expression)).
-                            Cast<BinaryExpressionSyntax>().
+                            OfType<BinaryExpressionSyntax>().
                             Any(ancestorBinary => ancestorBinary.IsKind(SyntaxKind.NotEqualsExpression) &&
                                                  (ancestorBinary.Left.IsKind(SyntaxKind.NullLiteralExpression) || ancestorBinary.Right.IsKind(SyntaxKind.NullLiteralExpression) &&
                                                  ((ancestorBinary.Left is IdentifierNameSyntax && ((IdentifierNameSyntax)ancestorBinary.Left).Identifier.Text == identifier.Text) ||
