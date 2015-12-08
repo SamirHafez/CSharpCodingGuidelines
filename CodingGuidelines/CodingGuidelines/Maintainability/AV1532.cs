@@ -24,11 +24,12 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
         public override void Initialize(AnalysisContext context)
         {
             context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.ForStatement);
+            context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.ForEachStatement);
         }
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var node = context.Node;
+            SyntaxNode node = context.Node;
 
             if (node.Ancestors().
                 Any(ancestorNode => ancestorNode is ForStatementSyntax || ancestorNode is ForEachStatementSyntax))

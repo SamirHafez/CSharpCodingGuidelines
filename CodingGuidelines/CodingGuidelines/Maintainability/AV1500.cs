@@ -25,11 +25,11 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var methodDeclaration = context.Node as MethodDeclarationSyntax;
+            var methodDeclaration = (MethodDeclarationSyntax)context.Node;
 
-            if (methodDeclaration?.Body.Statements.Count > 7)
+            if (methodDeclaration.Body.Statements.Count > 7)
             {
-                var diagnostic = Diagnostic.Create(Rule, methodDeclaration.Identifier.GetLocation(), methodDeclaration.Identifier.Text);
+                Diagnostic diagnostic = Diagnostic.Create(Rule, methodDeclaration.Identifier.GetLocation(), methodDeclaration.Identifier.Text);
 
                 context.ReportDiagnostic(diagnostic);
             }

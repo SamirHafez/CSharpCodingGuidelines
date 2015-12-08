@@ -25,9 +25,9 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var parameter = context.Node as ParameterSyntax;
+            var parameter = (ParameterSyntax)context.Node;
 
-            if (parameter?.Type is PredefinedTypeSyntax)
+            if (parameter.Type is PredefinedTypeSyntax)
             {
                 var predefinedType = (PredefinedTypeSyntax)parameter.Type;
                 if (predefinedType.Keyword.IsKind(SyntaxKind.BoolKeyword))

@@ -25,9 +25,9 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var parameterList = context.Node as ParameterListSyntax;
+            var parameterList = (ParameterListSyntax)context.Node;
 
-            if (parameterList?.Parameters.Count > 3)
+            if (parameterList.Parameters.Count > 3)
                 context.ReportDiagnostic(Diagnostic.Create(Rule, parameterList.GetLocation()));
         }
     }

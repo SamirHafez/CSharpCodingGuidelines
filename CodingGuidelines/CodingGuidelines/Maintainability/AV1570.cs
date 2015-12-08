@@ -5,11 +5,12 @@ using System.Collections.Immutable;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    class AV1570 : DiagnosticAnalyzer
+    public class AV1570 : DiagnosticAnalyzer
     {
         public const string DiagnosticId = "AV1570";
         internal const string Description = "Always check the result of an as operation";
@@ -27,26 +28,23 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var asExpression = context.Node as BinaryExpressionSyntax;
+            var asExpression = (BinaryExpressionSyntax)context.Node;
 
-            if (asExpression == null)
-                return;
-
-            var identifier = ((VariableDeclaratorSyntax)asExpression.Parent.Parent).Identifier;
+            SyntaxToken identifier = ((VariableDeclaratorSyntax)asExpression.Parent.Parent).Identifier;
 
             SyntaxNode auxNode = asExpression.Parent;
             while (!(auxNode is BlockSyntax))
                 auxNode = auxNode.Parent;
 
             var parentBlock = (BlockSyntax)auxNode;
-            var nextStatements = parentBlock.Statements.Where(s => s.SpanStart > asExpression.Span.End).ToList();
+            IList<StatementSyntax> nextStatements = parentBlock.Statements.Where(s => s.SpanStart > asExpression.Span.End).ToList();
 
             if (nextStatements.Count == 0)
                 context.ReportDiagnostic(Diagnostic.Create(Rule, asExpression.GetLocation()));
             else
                 foreach (var statement in nextStatements)
                 {
-                    var nodes = statement.DescendantNodes().
+                    IList<MemberAccessExpressionSyntax> nodes = statement.DescendantNodes().
                         OfType<MemberAccessExpressionSyntax>().
                         Where(memberNode => memberNode.Expression is IdentifierNameSyntax && ((IdentifierNameSyntax)memberNode.Expression).Identifier.Text == identifier.Text).
                         ToList();
