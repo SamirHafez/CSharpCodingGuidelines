@@ -1,15 +1,13 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
-using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    class AV1525 : DiagnosticAnalyzer
+    public class AV1525 : DiagnosticAnalyzer
     {
         public const string DiagnosticId = "AV1525";
         internal const string Description = "Don’t make explicit comparisons to true or false";
