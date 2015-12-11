@@ -7,11 +7,11 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    class AV1561 : DiagnosticAnalyzer
+    class AV1564 : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "AV1561";
-        internal const string Description = "Don’t allow methods and constructors with more than three parameters";
-        internal const string MessageFormat = "Don’t allow methods and constructors with more than three parameters";
+        public const string DiagnosticId = "AV1564";
+        internal const string Description = "Avoid methods that take a bool flag";
+        internal const string MessageFormat = "Avoid methods that take a bool flag";
         internal const string Category = "Maintainability";
 
         internal static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Description, MessageFormat, Category, DiagnosticSeverity.Warning, true);
@@ -20,15 +20,19 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public override void Initialize(AnalysisContext context)
         {
-            context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.ParameterList);
+            context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.Parameter);
         }
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var parameterList = context.Node as ParameterListSyntax;
+            var parameter = (ParameterSyntax)context.Node;
 
-            if (parameterList?.Parameters.Count > 3)
-                context.ReportDiagnostic(Diagnostic.Create(Rule, parameterList.GetLocation()));
+            if (parameter.Type is PredefinedTypeSyntax)
+            {
+                var predefinedType = (PredefinedTypeSyntax)parameter.Type;
+                if (predefinedType.Keyword.IsKind(SyntaxKind.BoolKeyword))
+                    context.ReportDiagnostic(Diagnostic.Create(Rule, parameter.Type.GetLocation()));
+            } 
         }
     }
 }

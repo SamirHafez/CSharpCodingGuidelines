@@ -27,9 +27,9 @@ namespace CodingGuidelines.Maintainability
 
         private void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var switchStatement = context.Node as SwitchStatementSyntax;
+            var switchStatement = (SwitchStatementSyntax)context.Node;
 
-            var hasDefaultLabel = switchStatement?.Sections
+            bool? hasDefaultLabel = switchStatement.Sections
                 .LastOrDefault()
                 ?.Labels
                 .OfType<DefaultSwitchLabelSyntax>()

@@ -27,9 +27,9 @@ namespace CodingGuidelines.Maintainability
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var assignmentExpression = context.Node as AssignmentExpressionSyntax;
+            var assignmentExpression = (AssignmentExpressionSyntax)context.Node;
 
-            if (assignmentExpression?.Right is AssignmentExpressionSyntax)
+            if (assignmentExpression.Right is AssignmentExpressionSyntax)
                 context.ReportDiagnostic(Diagnostic.Create(Rule, assignmentExpression.GetLocation()));
         }
     }

@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Immutable;
-using System.Threading;
+﻿using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.CSharp;
-using System.Linq;
 
 namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class AV1532 : DiagnosticAnalyzer
+    public class AV1500 : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "AV1532";
-        internal const string Description = "Avoid nested loops";
-        internal const string MessageFormat = "Avoid nested loops";
+        public const string DiagnosticId = "AV1500";
+        internal const string Description = "Methods should not exceed 7 statements";
+        internal const string MessageFormat = "Method '{0}' should not exceed 7 statements";
         internal const string Category = "Maintainability";
 
         internal static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Description, MessageFormat, Category, DiagnosticSeverity.Warning, true);
@@ -23,16 +20,19 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public override void Initialize(AnalysisContext context)
         {
-            context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.ForStatement);
+            context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.MethodDeclaration);
         }
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var node = context.Node;
+            var methodDeclaration = (MethodDeclarationSyntax)context.Node;
 
-            if (node.Ancestors().
-                Any(ancestorNode => ancestorNode is ForStatementSyntax || ancestorNode is ForEachStatementSyntax))
-                context.ReportDiagnostic(Diagnostic.Create(Rule, node.GetLocation()));
+            if (methodDeclaration.Body.Statements.Count > 7)
+            {
+                Diagnostic diagnostic = Diagnostic.Create(Rule, methodDeclaration.Identifier.GetLocation(), methodDeclaration.Identifier.Text);
+
+                context.ReportDiagnostic(diagnostic);
+            }
         }
     }
 }

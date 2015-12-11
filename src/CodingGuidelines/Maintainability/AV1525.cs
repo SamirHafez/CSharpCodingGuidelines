@@ -25,17 +25,14 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var binaryExpression = context.Node as BinaryExpressionSyntax;
-
-            if (binaryExpression == null)
-                return;
+            var binaryExpression = (BinaryExpressionSyntax)context.Node;
 
             if (binaryExpression.Left.IsKind(SyntaxKind.TrueLiteralExpression) ||
                binaryExpression.Left.IsKind(SyntaxKind.FalseLiteralExpression) ||
                binaryExpression.Right.IsKind(SyntaxKind.TrueLiteralExpression) ||
                binaryExpression.Right.IsKind(SyntaxKind.FalseLiteralExpression))
             {
-                var diagnostic = Diagnostic.Create(Rule, binaryExpression.GetLocation());
+                Diagnostic diagnostic = Diagnostic.Create(Rule, binaryExpression.GetLocation());
 
                 context.ReportDiagnostic(diagnostic);
             }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Immutable;
-using System.Threading;
+﻿using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 {
@@ -28,12 +27,9 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var methodDeclaration = context.Node as MethodDeclarationSyntax;
+            var methodDeclaration = (MethodDeclarationSyntax)context.Node;
 
-            if (methodDeclaration == null)
-                return;
-
-            var returnStatements = methodDeclaration.Body.DescendantNodes().
+            IList<SyntaxNode> returnStatements = methodDeclaration.Body.DescendantNodes().
                 Where(n => n.IsKind(SyntaxKind.ReturnStatement)).
                 ToList();
 

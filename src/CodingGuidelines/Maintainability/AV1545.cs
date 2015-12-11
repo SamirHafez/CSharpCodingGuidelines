@@ -25,13 +25,13 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var ifStatementSyntax = context.Node as IfStatementSyntax;
+            var ifStatementSyntax = (IfStatementSyntax)context.Node;
 
-            if (ifStatementSyntax?.Else != null)
+            if (ifStatementSyntax.Else != null)
             {
-                var ifExpression = GetStatementSingle(ifStatementSyntax.Statement);
+                SyntaxNode ifExpression = GetStatementSingle(ifStatementSyntax.Statement);
 
-                var elseExpression = GetStatementSingle(ifStatementSyntax.Else.Statement);
+                SyntaxNode elseExpression = GetStatementSingle(ifStatementSyntax.Else.Statement);
 
                 if (ifExpression != null && elseExpression != null)
                 {
@@ -39,8 +39,8 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
                         context.ReportDiagnostic(Diagnostic.Create(Rule, ifStatementSyntax.GetLocation()));
                     else if (ifExpression is ExpressionStatementSyntax && elseExpression is ExpressionStatementSyntax)
                     {
-                        var ifExpressionStatement = ((ExpressionStatementSyntax)ifExpression).Expression;
-                        var elseExpressionStatement = ((ExpressionStatementSyntax)elseExpression).Expression;
+                        ExpressionSyntax ifExpressionStatement = ((ExpressionStatementSyntax)ifExpression).Expression;
+                        ExpressionSyntax elseExpressionStatement = ((ExpressionStatementSyntax)elseExpression).Expression;
 
                         if (ifExpressionStatement.IsKind(SyntaxKind.SimpleAssignmentExpression) &&
                             elseExpressionStatement.IsKind(SyntaxKind.SimpleAssignmentExpression))
@@ -59,16 +59,11 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         private SyntaxNode GetStatementSingle(StatementSyntax statement)
         {
-            if (statement is BlockSyntax)
-            {
-                var block = (BlockSyntax)statement;
-                if (block.Statements.Count == 1)
-                    return block.Statements[0];
+            var block = statement as BlockSyntax;
 
-                return null;
-            }
-            else
-                return statement;
+            return block == null ?
+                statement :
+                (block.Statements.Count == 1 ? block.Statements[0] : null);
         }
     }
 }

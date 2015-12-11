@@ -7,11 +7,11 @@ using Microsoft.CodeAnalysis.CSharp;
 namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class AV1500 : DiagnosticAnalyzer
+    public class AV1510 : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "AV1500";
-        internal const string Description = "Methods should not exceed 7 statements";
-        internal const string MessageFormat = "Method '{0}' should not exceed 7 statements";
+        public const string DiagnosticId = "AV1510";
+        internal const string Description = "Use using statements instead of fully qualified type name";
+        internal const string MessageFormat = "Use using statements instead of fully qualified type name";
         internal const string Category = "Maintainability";
 
         internal static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Description, MessageFormat, Category, DiagnosticSeverity.Warning, true);
@@ -20,19 +20,17 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public override void Initialize(AnalysisContext context)
         {
-            context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.MethodDeclaration);
+            context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.QualifiedName);
         }
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var methodDeclaration = context.Node as MethodDeclarationSyntax;
+            if(context.Node.Parent is UsingDirectiveSyntax)
+                return;
 
-            if (methodDeclaration?.Body.Statements.Count > 7)
-            {
-                var diagnostic = Diagnostic.Create(Rule, methodDeclaration.Identifier.GetLocation(), methodDeclaration.Identifier.Text);
+            Diagnostic diagnostic = Diagnostic.Create(Rule, context.Node.GetLocation());
 
-                context.ReportDiagnostic(diagnostic);
-            }
+            context.ReportDiagnostic(diagnostic);
         }
     }
 }

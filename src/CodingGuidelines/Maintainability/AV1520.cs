@@ -26,14 +26,12 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var b = string.Empty;
-
-            var variableDeclaration = context.Node as VariableDeclarationSyntax;
+            var variableDeclaration = (VariableDeclarationSyntax)context.Node;
 
             if (variableDeclaration == null || !variableDeclaration.Type.IsVar)
                 return;
 
-            // IT'S MISSING PREDEFINED TYPES (E.G. int.Parse/string.empy)
+            // IT'S MISSING PREDEFINED TYPES (E.G. int.Parse/string.empty)
             foreach(ExpressionSyntax expression in variableDeclaration.Variables.
                 Where(declarator => declarator.Initializer != null &&
                                     declarator.Initializer.Value != null &&
@@ -43,7 +41,7 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
                                     !(declarator.Initializer.Value is LiteralExpressionSyntax)).
                 Select(declarator => declarator.Initializer.Value))
             {
-                var diagnostic = Diagnostic.Create(Rule, expression.GetLocation());
+                Diagnostic diagnostic = Diagnostic.Create(Rule, expression.GetLocation());
 
                 context.ReportDiagnostic(diagnostic);
             }

@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 {
@@ -27,12 +28,12 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         public void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
-            var node = context.Node;
+            SyntaxNode node = context.Node;
 
             if (node is ForEachStatementSyntax)
             {
                 var forEach = (ForEachStatementSyntax)node;
-                var identifier = forEach.Identifier;
+                SyntaxToken identifier = forEach.Identifier;
 
                 if (identifier != null)
                     FindViolatingAssignments(context, forEach, identifier);
@@ -40,7 +41,7 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
             else if (node is ForStatementSyntax)
             {
                 var @for = (ForStatementSyntax)node;
-                var declarationVariables = @for.Declaration?.Variables;
+                SeparatedSyntaxList<VariableDeclaratorSyntax>? declarationVariables = @for.Declaration?.Variables;
 
                 if (declarationVariables.HasValue)
                     foreach (var declarationVariable in declarationVariables)
@@ -50,7 +51,7 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 
         private static void FindViolatingAssignments(SyntaxNodeAnalysisContext context, SyntaxNode syntaxNode, SyntaxToken identifier)
         {
-            var assignments = syntaxNode.DescendantNodes().OfType<AssignmentExpressionSyntax>();
+            IEnumerable<AssignmentExpressionSyntax> assignments = syntaxNode.DescendantNodes().OfType<AssignmentExpressionSyntax>();
 
             foreach (var violatingAssignment in assignments.Where(ass => ass.Left is IdentifierNameSyntax
                                              && ((IdentifierNameSyntax)ass.Left).Identifier.Value == identifier.Value))
