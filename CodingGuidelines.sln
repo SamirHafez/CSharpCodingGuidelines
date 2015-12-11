@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingGuidelines", "CodingGuidelines\CodingGuidelines\CodingGuidelines.csproj", "{B9E748B0-D805-4F0B-9A97-33F8AA67FA23}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingGuidelines.Test", "CodingGuidelines\CodingGuidelines.Test\CodingGuidelines.Test.csproj", "{54BDCB00-580D-431C-9EEB-9A06CD645F43}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingGuidelines.Vsix", "CodingGuidelines\CodingGuidelines.Vsix\CodingGuidelines.Vsix.csproj", "{1369282C-95E7-400A-B847-AAB0F297EF12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{54BDCB00-580D-431C-9EEB-9A06CD645F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54BDCB00-580D-431C-9EEB-9A06CD645F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54BDCB00-580D-431C-9EEB-9A06CD645F43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1369282C-95E7-400A-B847-AAB0F297EF12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1369282C-95E7-400A-B847-AAB0F297EF12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1369282C-95E7-400A-B847-AAB0F297EF12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1369282C-95E7-400A-B847-AAB0F297EF12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
