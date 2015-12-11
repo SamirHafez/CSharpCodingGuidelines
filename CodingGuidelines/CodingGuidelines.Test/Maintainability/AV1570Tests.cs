@@ -128,66 +128,66 @@ namespace CodingGuidelines.Test.Maintainability
             VerifyCSharpDiagnostic(code);
         }
 
-        [TestMethod]
-        public void AccessCheckingWithReturnCut()
-        {
-            var code = @"
-                        using System;
-                        using System.Linq;
+        //[TestMethod]
+        //public void AccessCheckingWithReturnCut()
+        //{
+        //    var code = @"
+        //                using System;
+        //                using System.Linq;
 
-                        namespace ConsoleApp1
-                        {
-                            public class Test0
-                            {
-                                public void Tested()
-                                {
-                                    var obj = new Object();
+        //                namespace ConsoleApp1
+        //                {
+        //                    public class Test0
+        //                    {
+        //                        public void Tested()
+        //                        {
+        //                            var obj = new Object();
                                     
-                                    var s = obj as String;
+        //                            var s = obj as String;
 
-                                    if(s == null)
-                                        return;
+        //                            if(s == null)
+        //                                return;
                                     
-                                    var toString = s.ToString();
-                                }
-                            }
-                        }
-                        ";
+        //                            var toString = s.ToString();
+        //                        }
+        //                    }
+        //                }
+        //                ";
 
-            VerifyCSharpDiagnostic(code);
-        }
+        //    VerifyCSharpDiagnostic(code);
+        //}
 
-        [TestMethod]
-        public void AccessCheckingWithBreakCut()
-        {
-            var code = @"
-                        using System;
-                        using System.Linq;
+        //[TestMethod]
+        //public void AccessCheckingWithBreakCut()
+        //{
+        //    var code = @"
+        //                using System;
+        //                using System.Linq;
 
-                        namespace ConsoleApp1
-                        {
-                            public class Test0
-                            {
-                                public void Tested()
-                                {
-                                    var obj = new Object();
+        //                namespace ConsoleApp1
+        //                {
+        //                    public class Test0
+        //                    {
+        //                        public void Tested()
+        //                        {
+        //                            var obj = new Object();
 
-                                    while(true)
-                                    {
-                                        var s = obj as String;
+        //                            while(true)
+        //                            {
+        //                                var s = obj as String;
 
-                                        if(s == null)
-                                            break;
+        //                                if(s == null)
+        //                                    break;
                                         
-                                        var toString = s.ToString();
-                                    } 
-                                }
-                            }
-                        }
-                        ";
+        //                                var toString = s.ToString();
+        //                            } 
+        //                        }
+        //                    }
+        //                }
+        //                ";
 
-            VerifyCSharpDiagnostic(code);
-        }
+        //    VerifyCSharpDiagnostic(code);
+        //}
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
