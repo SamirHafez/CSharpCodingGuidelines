@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingGuidelines", "src\CodingGuidelines\CodingGuidelines.csproj", "{B9E748B0-D805-4F0B-9A97-33F8AA67FA23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingGuidelines", "CodingGuidelines\CodingGuidelines.csproj", "{B9E748B0-D805-4F0B-9A97-33F8AA67FA23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingGuidelines.Test", "src\CodingGuidelines.Test\CodingGuidelines.Test.csproj", "{54BDCB00-580D-431C-9EEB-9A06CD645F43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingGuidelines.Test", "CodingGuidelines.Test\CodingGuidelines.Test.csproj", "{54BDCB00-580D-431C-9EEB-9A06CD645F43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
