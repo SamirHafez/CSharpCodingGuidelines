@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/SamirHafez/CSharpCodingGuidelines</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <releaseNotes>Fix AV1570 not detecting some edge cases.</releaseNotes>
     <copyright>Samir Hafez</copyright>
     <tags>guidelines, design, code, analyzer</tags>
   </metadata>
