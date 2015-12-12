@@ -4,12 +4,12 @@
     <id>CodingGuidelines</id>
     <version>$version$</version>
     <title>C# Coding Guidelines 2015</title>
-    <authors>$author$</authors>
+    <authors>Samir Hafez</authors>
     <owners>Samir Hafez</owners>
     <licenseUrl>https://raw.githubusercontent.com/SamirHafez/CSharpCodingGuidelines/master/LICENSE.txt</licenseUrl>
     <projectUrl>https://github.com/SamirHafez/CSharpCodingGuidelines</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>C# Code diagnostics for promoting good clean design.</description>
     <releaseNotes>Fix AV1570 not detecting some edge cases.</releaseNotes>
     <copyright>Samir Hafez</copyright>
     <tags>guidelines, design, code, analyzer</tags>
