@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
+using System;
 
 namespace DiagnosticAnalyzerAndCodeFix.Maintainability
 {
@@ -40,10 +41,13 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
             IList<StatementSyntax> nextStatements = parentBlock.Statements.Where(s => s.SpanStart > asExpression.Span.End).ToList();
 
             if (nextStatements.Count == 0)
-                context.ReportDiagnostic(Diagnostic.Create(Rule, asExpression.GetLocation()));
+                return;
             else
                 foreach (var statement in nextStatements)
                 {
+                    if (IsCut(statement, identifier))
+                        break;
+
                     IList<MemberAccessExpressionSyntax> nodes = statement.DescendantNodes().
                         OfType<MemberAccessExpressionSyntax>().
                         Where(memberNode => memberNode.Expression is IdentifierNameSyntax && ((IdentifierNameSyntax)memberNode.Expression).Identifier.Text == identifier.Text).
@@ -62,6 +66,29 @@ namespace DiagnosticAnalyzerAndCodeFix.Maintainability
                             context.ReportDiagnostic(Diagnostic.Create(Rule, memberNode.GetLocation()));
                     }
                 }
+        }
+
+        private bool IsCut(StatementSyntax statement, SyntaxToken identifier)
+        {
+            bool result = false;
+            if (statement is IfStatementSyntax)
+            {
+                var ifStatement = (IfStatementSyntax)statement;
+                if (ifStatement.Condition is BinaryExpressionSyntax)
+                {
+                    BinaryExpressionSyntax condition = (BinaryExpressionSyntax)ifStatement.Condition;
+
+                    if (condition.Left.IsKind(SyntaxKind.NullLiteralExpression) ||
+                        condition.Right.IsKind(SyntaxKind.NullLiteralExpression))
+                    {
+                        if (condition.Left is IdentifierNameSyntax)
+                            result = ((IdentifierNameSyntax)condition.Left).Identifier.Text == identifier.Text;
+                        else if (condition.Right is IdentifierNameSyntax)
+                            result = ((IdentifierNameSyntax)condition.Right).Identifier.Text == identifier.Text;
+                    }
+                }
+            }
+            return result;
         }
     }
 }
